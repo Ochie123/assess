@@ -1,6 +1,6 @@
 import React from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { Divider } from '@mui/material';
+import { Divider, Box } from '@mui/material';
 
 import NavigationBar from './NavigationBar'
 
@@ -10,6 +10,7 @@ import Footers from './Footers';
 const MainLayout = ({ children } ) => {
     return (
         <>
+        <Box component="section" py={{ xs: 3, md: 12 }}>
         <NavigationBar/>
 
       
@@ -20,7 +21,7 @@ const MainLayout = ({ children } ) => {
             
         <Footers/>
       
-        
+        </Box>
         </>
     )
 }

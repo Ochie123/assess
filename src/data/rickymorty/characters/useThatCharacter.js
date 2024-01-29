@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-import { loadCharacter } from '../api'
+import { loadCharacter } from '../api/api'
 import useCurrentCharacter from "./useCurrentCharacter";
 
 function useThatCharacter() {

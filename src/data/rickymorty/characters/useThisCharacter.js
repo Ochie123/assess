@@ -5,9 +5,9 @@ import useCurrentCharacter from "./useCurrentCharacter";
 
 function useThisCharacter(id) {
   const queryClient = useQueryClient();
-  const { data } = useQuery("", loadCharacters);
+  const { data } = useQuery("characters", loadCharacters);
   const onSuccess = ({ username}) =>
-    queryClient.setQueryData("", (oldCharacters) =>
+    queryClient.setQueryData("characters", (oldCharacters) =>
       oldCharacters.map((oldCharacter) =>
         oldCharacter.id !== id ? oldCharacter : { id, username}
       )
@@ -15,7 +15,7 @@ function useThisCharacter(id) {
 
   const seeCharacter = useCurrentCharacter((state) => state.seeCharacter);
   return {
-    character: data?.find((c) => c.id === id),
+    character: data?.results.find((c) => c.id === id),
     seeCharacter: () => seeCharacter(id),
   };
 }
