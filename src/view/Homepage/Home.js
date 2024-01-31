@@ -36,7 +36,7 @@ function Home() {
             <Stack spacing={2} direction="row">
               <Box display="flex" alignItems="center" p={2}>
                 <Box>
-                <Link to={`/ricky-morty`}>
+                <Link to={`/unsplash`}>
                 <ColorButton variant="contained"><ApiIcon/>Unsplash api <Icon sx={{ fontWeight: "bold" }}>arrow_forward</Icon> </ColorButton>  
                 </Link>
                 </Box>
