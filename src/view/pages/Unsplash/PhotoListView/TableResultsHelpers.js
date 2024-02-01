@@ -5,35 +5,13 @@ export const applyFilters = (results, query, filters) => {
   return results.filter(result => {
     let matches = true
 
-    if (query && !result.name.toLowerCase().includes(query.toLowerCase())) {
+    if (query && !result.user.name.toLowerCase().includes(query.toLowerCase())) {
       matches = false
     }
 
     if (filters.category && result.category !== filters.category) {
       matches = false
     }
-
-    if (filters.availability) {
-      if (filters.availability === 'active' && !result.active) {
-        matches = false
-      }
-
-      if (filters.availability === 'inactive' && result.active) {
-        matches = false
-      }
-    }
-
-    if (
-      filters.inStock &&
-      !["in_stock", "limited"].includes(result.inventoryType)
-    ) {
-      matches = false
-    }
-
-    if (filters.bestdeals && !result.bestdeals) {
-      matches = false
-    }
-
     return matches
   })
 }

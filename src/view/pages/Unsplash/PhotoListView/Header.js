@@ -5,22 +5,14 @@ import NavigateNextIcon from  "@mui/icons-material/NavigateNext"
 import {
   Box,
   Breadcrumbs,
-  Button,
   Grid,
   Link,
-  SvgIcon,
   Typography,
-  createStyles,
-
 } from "@mui/material"
-import {
-  PlusCircle as PlusCircleIcon,
-  Download as DownloadIcon,
-  Upload as UploadIcon
-} from "react-feather"
+
 
 const Header = ({ className, ...rest }) => {
-  const {classes} = useStyles(createStyles)
+
 
   return (
     <Grid
@@ -38,68 +30,25 @@ const Header = ({ className, ...rest }) => {
           <Link
             variant="body1"
             color="inherit"
-            to="/reports"
+            to="/"
             component={RouterLink}
           >
-            Dashboard
+            Home
           </Link>
 
           <Box>
             <Typography variant="body1" color="inherit">
-              List Auctions
+              List Photos
             </Typography>
           </Box>
         </Breadcrumbs>
         <Typography variant="h4" color="textPrimary">
-          All Auctions
+          All Photos
         </Typography>
-        <Box mt={2}>
-          <Button
-            className=""
-            startIcon={
-              <SvgIcon fontSize="small">
-                <UploadIcon />
-              </SvgIcon>
-            }
-          >
-            Import
-          </Button>
-          <Button
-            className=""
-            startIcon={
-              <SvgIcon fontSize="small">
-                <DownloadIcon />
-              </SvgIcon>
-            }
-          >
-            Export
-          </Button>
-        </Box>
-      </Grid>
-      <Grid item>
-        <Button
-          color="primary"
-          variant="contained"
-          className=""
-          component={RouterLink}
-          to="/create-auction"
-          startIcon={
-            <SvgIcon fontSize="small">
-              <PlusCircleIcon />
-            </SvgIcon>
-          }
-        >
-          New Auction
-        </Button>
       </Grid>
     </Grid>
   )
 }
 
-const useStyles = (theme) =>  ({
-  root: {},
-
-  
-})
 
 export default Header
