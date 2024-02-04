@@ -52,6 +52,7 @@ const UnsplashPhotos = () => {
 
   return (
     <Page className={classes.root} title="Photo List">
+      <div className="container mt-5">
       <Container maxWidth={false}>
         <Header />
       
@@ -73,6 +74,7 @@ const UnsplashPhotos = () => {
     
        
       </Container>
+      </div>
     </Page>
   );
 };

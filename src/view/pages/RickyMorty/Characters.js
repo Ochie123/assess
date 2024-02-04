@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
@@ -15,11 +15,46 @@ export default function Characters({ id }) {
 
   const allResults = charactersData.results;
 
+  const [filters, setFilters] = useState({
+    name: '',
+    status: '',
+    species: '',
+    type: '',
+    gender: '',
+  });
+
+  const filteredCharacters = allResults.filter(character => {
+    return Object.entries(filters).every(([key, value]) => {
+      if (value === '') return true;
+      return character[key].toLowerCase().includes(value.toLowerCase());
+    });
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };
+  
   return (
     <div className="container mt-5">
       <h2>All Characters (First Page)</h2>
+      
       <div className="row row-cols-lg-4 row-cols-sm-2 g-4">
-        {allResults?.map((character) => (
+      <div>
+          <label>Name:</label>
+          <input type="text" name="name" value={filters.name} onChange={handleInputChange} />
+        </div>
+  
+        <div>
+          <label>Status:</label>
+          <select name="status" value={filters.status} onChange={handleInputChange}>
+            <option value="">Select Status</option>
+            <option value="alive">Alive</option>
+            <option value="dead">Dead</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+        {filteredCharacters.map((character) => (
           <Link
             key={character.id}
             to={`/characters/${character.id}`}

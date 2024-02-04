@@ -4,7 +4,7 @@
   "private": true,
   "author": "assess",
   "license": "ISC",
-  "description": "Assessment to evaluate your expertise in API mastery, communication skills, and practical problem-solving by building a client application",
+  "description": "Assessment to evaluate expertise in API mastery, communication skills, and practical problem-solving by building a client application",
   "homepage": "https://assess.net",
   "repository": {
     "type": "git",

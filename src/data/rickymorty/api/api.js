@@ -1,6 +1,6 @@
 const URLS = {
 
-    CHARACTERS: "https://rickandmortyapi.com/api/character",
+    CHARACTERS: "https://rickandmortyapi.com/api/character/?${queryString}",
     CHARACTER: (id) => `https://rickandmortyapi.com/api/character/${id}`,
   
     LOCATIONS: "https://rickandmortyapi.com/api/location",
@@ -24,9 +24,7 @@ const URLS = {
     wrappedFetch(url, { method: "POST", body: data && JSON.stringify(data) });
   const remove = (url) => wrappedFetch(url, { method: "DELETE" });
   
-  // USER API
-  
-  
+ 
   const loadCharacters = () => get(URLS.CHARACTERS);
   const loadCharacter = (id) => get(URLS.CHARACTER(id));
   
