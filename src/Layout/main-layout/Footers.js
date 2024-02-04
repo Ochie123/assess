@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import React from 'react';
 
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 
@@ -13,16 +12,13 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-function Footers({company, links, socials, light}){
-   const { href, name } = company;
+function Footers({ links, socials, light}){
 
     const year = new Date().getFullYear();
 
     const renderLinks = links.map((link) => (
         <Typography
           key={link.name}
-         
-         
           variant="body2"
           color={ "white"}
           fontWeight="regular"

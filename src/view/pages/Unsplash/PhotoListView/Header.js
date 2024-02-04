@@ -12,8 +12,6 @@ import {
 
 
 const Header = ({ className, ...rest }) => {
-
-
   return (
     <Grid
       container

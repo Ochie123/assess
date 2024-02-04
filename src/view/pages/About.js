@@ -1,8 +1,6 @@
-
 // @mui material components
-import Card from "@mui/material/Card";
 import Container from "@mui/material/Container";
-// Material Kit 2 React components
+
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -19,8 +17,7 @@ const About = () => {
     <Box
         minHeight="75vh"
         width="100%"
-        sx={{
-         
+        sx={{ 
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "grid",

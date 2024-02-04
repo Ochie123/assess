@@ -1,6 +1,5 @@
 import React from "react"
 import {  Typography, useMediaQuery } from "@mui/material"
-import Card from "@mui/material/Card";
 import Page from '../../components/Page';
 
 import Home from './Home';

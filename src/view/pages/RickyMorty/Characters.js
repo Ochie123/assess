@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
 import { useQuery } from "react-query";
 import { loadCharacters } from "../../../data/rickymorty/api/api";
-import { useThisCharacter } from "../../../data";
 
-export default function Characters({ id }) {
+export default function Characters() {
   const { data: charactersData = { results: [] } } = useQuery(
     "results",
     loadCharacters
   );
-  const { character } = useThisCharacter(id);
-
   const allResults = charactersData.results;
 
   const [filters, setFilters] = useState({
@@ -32,34 +29,81 @@ export default function Characters({ id }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value
+    }));
   };
-  
+
   return (
     <div className="container mt-5">
-      <h2>All Characters (First Page)</h2>
-      
+      <h2>Characters</h2>
+      <div className='row'>
+        <div className='col-md-3 col-sm-6'>
+          <div>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={filters.name}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <div className='col-md-3 col-sm-6'>
+          <div>
+            <label>Status:</label>
+            <select
+              name="status"
+              value={filters.status}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Status</option>
+              <option value="alive">Alive</option>
+              <option value="dead">Dead</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div className='col-md-3 col-sm-6'>
+          <div>
+            <label>Gender:</label>
+            <select
+              name="gender"
+              value={filters.gender}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div className='col-md-3 col-sm-6'>
+          <div>
+            <label>Species:</label>
+            <select
+              name="species"
+              value={filters.species}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Species</option>
+              <option value="human">Human</option>
+              <option value="alien">Alien</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <br />
+
       <div className="row row-cols-lg-4 row-cols-sm-2 g-4">
-      <div>
-          <label>Name:</label>
-          <input type="text" name="name" value={filters.name} onChange={handleInputChange} />
-        </div>
-  
-        <div>
-          <label>Status:</label>
-          <select name="status" value={filters.status} onChange={handleInputChange}>
-            <option value="">Select Status</option>
-            <option value="alive">Alive</option>
-            <option value="dead">Dead</option>
-            <option value="unknown">Unknown</option>
-          </select>
-        </div>
         {filteredCharacters.map((character) => (
-          <Link
-            key={character.id}
-            to={`/characters/${character.id}`}
-            className="col"
-          >
+          <Link key={character.id} to={`/characters/${character.id}`} className="col-md-3 col-sm-6">
             <div className="mb-3">
               <img
                 src={character.image}

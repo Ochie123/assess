@@ -13,7 +13,6 @@ import MainLayout from '../src/Layout/main-layout/MainLayout'
 
 
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const GlobalStyle = createGlobalStyle`
@@ -36,7 +35,6 @@ const Characters = lazy(() => import ('../src/view/pages/RickyMorty/Characters')
 const Episodes= lazy(() => import ('../src/view/pages/RickyMorty/Episodes'));
 const Locations = lazy(() => import ('../src/view/pages/RickyMorty/Locations'));
 const Images = lazy(() => import('../src/view/pages/Unsplash/PhotoListView'));
-const Images1 = lazy(() => import('../src/view/pages/Unsplash/Home'));
 const CharacterDetailPage = lazy(() => import ('../src/view/Detail/CharacterDetailPage'));
 const PhotoDetailPage = lazy(() => import ('../src/view/Detail/PhotoDetailPage'));
 const About = lazy(() => import('./view/pages/About'));
@@ -70,7 +68,6 @@ function App() {
         <Route path="locations/" element={<Locations />} />
         <Route path="characters/:id" element ={<CharacterDetailPage/>}/>
         <Route path="unsplash/" element={<Images />} />
-        <Route path="unsplash1/" element={<Images1 />} />
         <Route path="photos/:id" element={<PhotoDetailPage/>} />
         <Route path="about/" element={<About />} />
     

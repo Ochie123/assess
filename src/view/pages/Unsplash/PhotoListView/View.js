@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Backdrop,
   Box,
-  CircularProgress,
   Container,
 } from '@mui/material';
 
-//import { useQuery } from "react-query";
-//import { loadCharacters } from "../../../data/rickymorty/api/api";
 import Header from './Header';
 import Results from './Results';
 import Page from '../../../../components/Page';
@@ -15,7 +11,7 @@ import Page from '../../../../components/Page';
 const AccessKey = 'frZ-Ilry71ODyHtsn6W_XKAa77h3ZUjVph_bydlEPnw';
 
 const UnsplashPhotos = () => {
-  const classes = useStyles();
+
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
@@ -41,17 +37,8 @@ const UnsplashPhotos = () => {
     fetchPhotos();
   }, []);
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
-
   return (
-    <Page className={classes.root} title="Photo List">
+    <Page title="Photo List">
       <div className="container mt-5">
       <Container maxWidth={false}>
         <Header />
@@ -61,18 +48,7 @@ const UnsplashPhotos = () => {
           <Box mt={3}>
             <Results results={photos} />
           </Box>
-        )}
-   
-      <Backdrop
-          className=""
-          open={open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-   
-    
-       
+        )}       
       </Container>
       </div>
     </Page>
@@ -80,9 +56,5 @@ const UnsplashPhotos = () => {
 };
 
 
-const useStyles = (theme) =>  ({
-  root: {},
-
-})
 
 export default UnsplashPhotos;

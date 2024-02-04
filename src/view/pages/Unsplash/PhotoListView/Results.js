@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, } from "react"
 import clsx from "clsx"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward"
 import Table from "@mui/joy/Table"
-
-
 import { Link } from "react-router-dom"
 import {
   ArrowRight as ArrowRightIcon,
@@ -24,70 +20,38 @@ import {
   TableRow,
   TextField,
 } from "@mui/material"
+import Button from "@mui/material/Button"
+import VisibilityIcon from "@mui/icons-material/Visibility"
+import Dialog from "@mui/material/Dialog"
+import DialogTitle from "@mui/material/DialogTitle"
+import DialogContent from "@mui/material/DialogContent"
+import DialogContentText from "@mui/material/DialogContentText"
+import DialogActions from "@mui/material/DialogActions"
 
 import {
-  tagOptions,
   sortOptions,
 
 } from "../../../../others/helpers/InputPhotoOptions"
 import { applyFilters } from "./TableResultsHelpers"
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4
-}
-
 const Results = ({ className, results, result, ...rest }) => {
-  const [open, setOpen] = React.useState(false)
-
-  const [selectedResults, setSelectedResults] = useState([])
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(25)
   const [query, setQuery] = useState("")
   const [sort, setSort] = useState(sortOptions[0].value)
-  const [resultLikesSortOrder, setResultLikesSortOrder] = useState("desc")
-
-  const [sortOrder, setSortOrder] = useState("desc")
-  const [filters, setFilters] = useState({
-    tag: null,
-    has_location: null
-  })
-  const handleSortByLikes = () => {
-    const newSortOrder = sortOrder === "asc" ? "desc" : "asc"
-    setSortOrder(newSortOrder)
-  }
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false)
+  const [selectedResult, setSelectedResult] = useState(null)
 
   const handleQueryChange = event => {
     event.persist()
     setQuery(event.target.value)
   }
 
-  const handleTagChange = event => {
-    event.persist()
+  const handleSortChange = (event) => {
+    event.persist();
+    setSort(event.target.value);
+  };
 
-    let value = null
-
-    if (event.target.value !== "all") {
-      value = event.target.value
-    }
-
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      tag: value
-    }))
-  }
-
-  const handleSortChange = event => {
-    event.persist()
-    setSort(event.target.value)
-  }
   const handlePageChange = (event, newPage) => {
     setPage(newPage)
   }
@@ -101,14 +65,24 @@ const Results = ({ className, results, result, ...rest }) => {
     const endIndex = startIndex + limit
     return results.slice(startIndex, endIndex)
   }
-  
-  const filteredResults = applyFilters(results, query, filters)
+  const applySorting = (results, sortingOption) => {
+    const [field, order] = sortingOption.split("|");
+    const apiFieldMap = {
+      created: "created_at",
+    };
+    const mappedField = apiFieldMap[field] || field;
+    return [...results].sort((a, b) => {
+      if (order === "asc") {
+        return a[mappedField].localeCompare(b[mappedField]);
+      } else {
+        return b[mappedField].localeCompare(a[mappedField]); 
+      }
+    });
+  };
+  const filteredResults = applyFilters(results, query)
   const paginatedResults = applyPagination(filteredResults, page, limit)
-
-  const sortedResults = [...paginatedResults].sort((a, b) => {
-
-   
-  })
+  const sortedResults = applySorting(paginatedResults, sort);
+  
   return (
     <Card className={clsx("", className)} {...rest}>
       <Box p={2}>
@@ -146,24 +120,6 @@ const Results = ({ className, results, result, ...rest }) => {
             ))}
           </TextField>
         </Box>
-        <Box mt={3} display="flex" alignItems="center">
-          <TextField
-            className=""
-            label="Tags"
-            name="tag"
-            onChange={handleTagChange}
-            select
-            SelectProps={{ native: true }}
-            value={filters.tag || "all"}
-            variant="outlined"
-          >
-            {tagOptions.map(tagOption => (
-              <option key={tagOption.id} value={tagOption.id}>
-                {tagOption.name}
-              </option>
-            ))}
-          </TextField>
-        </Box>
       </Box>
 
       <PerfectScrollbar>
@@ -175,13 +131,8 @@ const Results = ({ className, results, result, ...rest }) => {
                 <TableCell>Created at</TableCell>
                
                 <TableCell>Photographer Portfolio</TableCell>
-                <TableCell onClick={'handleSortByLikes'}>
-                  No. of likes{" "}
-                  {resultLikesSortOrder === "desc" ? (
-                    <ArrowDownwardIcon />
-                  ) : (
-                    <ArrowUpwardIcon />
-                  )}
+                <TableCell> 
+                  No. of likes
                 </TableCell>
                 <TableCell align="right">Photo Detail</TableCell>
               </TableRow>
@@ -189,14 +140,94 @@ const Results = ({ className, results, result, ...rest }) => {
             <TableBody>
               {sortedResults
                 .map(result => {
+                  const handleProfileDialogOpen = selectedId => {
+                    setSelectedResult(selectedId)
+                    setIsProfileDialogOpen(true)
+                  }
+
+                  const handleProfileDialogClose = () => {
+                    setIsProfileDialogOpen(false)
+                  }
+
                   return (
                     <TableRow key={result.id}>
-                      <TableCell className="">{result.user.name}</TableCell>
+                      <TableCell>               
+                        {result.user.name}
+                        <VisibilityIcon
+                          onClick={() => handleProfileDialogOpen(result.id)}
+                        />  
+                        </TableCell>
+                      <Dialog
+                        open={isProfileDialogOpen}
+                        onClose={handleProfileDialogClose}
+                      >
+                        <DialogTitle>Profile Details</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            <Box minWidth={700}>
+                              <Table>
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell>Profile name</TableCell>
+                                    <TableCell>Location</TableCell>
+                                    <TableCell>Total likes</TableCell>
+                                    <TableCell>Twitter</TableCell>
+                                    <TableCell>Portfolio</TableCell>
+                                    <TableCell>Profile Image</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {sortedResults
+                                  .filter(result => result.id === selectedResult)
+                                  .map((selectedResult,index) => {
+                                    return (
+                                      <TableRow key={index}>
+                                        <TableCell>
+                                          {selectedResult.user.name}
+                                        </TableCell>
+                                        <TableCell>
+                                          {selectedResult.user.location}
+                                        </TableCell>
+                                        <TableCell>{selectedResult.user.total_likes}</TableCell>
+                                        <TableCell>{selectedResult.user.twitter_username}</TableCell>
+                                        <TableCell>
+                                        <a
+                                          href={selectedResult.user.portfolio_url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          View Portfolio
+                                        </a>
+                                        </TableCell>
+                                        <TableCell>
+                                        <img
+                                          src={selectedResult.user.profile_image.medium}
+                                          alt="Profile"
+                                          style={{ width: 32, height: 32 }}
+                                        />
+                                      </TableCell>
+                                      </TableRow>
+                                    )
+                                  })}
+                                </TableBody>
+                              </Table>
+                            </Box>
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            variant="contained"
+                            className=""
+                            color="secondary"
+                            onClick={handleProfileDialogClose}
+                          >
+                            Close
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                       <TableCell>
                         {new Date(result.created_at).toLocaleString()}
                       </TableCell>
-            
-                    
                       <TableCell>
                       <a
                       href={result.user.links.html}
@@ -212,8 +243,7 @@ const Results = ({ className, results, result, ...rest }) => {
 
                       <TableCell>
                         <IconButton>
-                          <Link to={`/photos/${result.id}`}>
-                            
+                          <Link to={`/photos/${result.id}`}>  
                             <ArrowRightIcon />
                           </Link>
                         </IconButton>
