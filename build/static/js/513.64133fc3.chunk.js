@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkassess=self.webpackChunkassess||[]).push([[513],{6513:(s,e,a)=>{a.r(e),a.d(e,{default:()=>c});a(2791);var n=a(184);function c(){return(0,n.jsx)("div",{className:"container mt-5",children:(0,n.jsx)("h2",{children:"Locations here"})})}}}]);
+//# sourceMappingURL=513.64133fc3.chunk.js.map
