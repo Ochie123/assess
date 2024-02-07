@@ -1,5 +1,4 @@
-
-export default [
+const designBlocksData = [
   {
     title: "Getting Started",
     description: "Overview of Unsplash API",
@@ -77,3 +76,5 @@ export default [
     ],
   },
 ];
+
+export default designBlocksData;

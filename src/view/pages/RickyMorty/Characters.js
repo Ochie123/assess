@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Typography from "@mui/material/Typography";
+import { Search as SearchIcon } from "react-feather";
+import { Box, Card, InputAdornment, SvgIcon, TextField, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-
 import { useQuery } from "react-query";
+import Page from '../../../components/Page';
 import { loadCharacters } from "../../../data/rickymorty/api/api";
 
 export default function Characters() {
@@ -36,102 +38,115 @@ export default function Characters() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Characters</h2>
-      <div className='row'>
-        <div className='col-md-3 col-sm-6'>
-          <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={filters.name}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-
-        <div className='col-md-3 col-sm-6'>
-          <div>
-            <label>Status:</label>
-            <select
-              name="status"
-              value={filters.status}
-              onChange={handleInputChange}
-            >
-              <option value="">Select Status</option>
-              <option value="alive">Alive</option>
-              <option value="dead">Dead</option>
-              <option value="unknown">Unknown</option>
-            </select>
-          </div>
-        </div>
-
-        <div className='col-md-3 col-sm-6'>
-          <div>
-            <label>Gender:</label>
-            <select
-              name="gender"
-              value={filters.gender}
-              onChange={handleInputChange}
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="unknown">Unknown</option>
-            </select>
-          </div>
-        </div>
-
-        <div className='col-md-3 col-sm-6'>
-          <div>
-            <label>Species:</label>
-            <select
-              name="species"
-              value={filters.species}
-              onChange={handleInputChange}
-            >
-              <option value="">Select Species</option>
-              <option value="human">Human</option>
-              <option value="alien">Alien</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <br />
-
-      <div className="row row-cols-lg-4 row-cols-sm-2 g-4">
-        {filteredCharacters.map((character) => (
-          <Link key={character.id} to={`/characters/${character.id}`} className="col-md-3 col-sm-6">
-            <div className="mb-3">
-              <img
-                src={character.image}
-                alt={character.name}
-                className="img-fluid rounded-circle"
+    <Page title="Character List">
+      <div className="container mt-5">
+        <Typography variant="body1" color="inherit">
+          List Characters
+        </Typography>
+        <Card>
+          <Box p={2}>
+            <Box display="flex" alignItems="center">
+              <TextField
+                className=""
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SvgIcon fontSize="small" color="action">
+                        <SearchIcon />
+                      </SvgIcon>
+                    </InputAdornment>
+                  )
+                }}
+                placeholder="Search characters"
+                variant="outlined"
+                name="name"
+                value={filters.name}
+                onChange={handleInputChange}
               />
-              <Typography textColor="success.400" fontWeight="xl" my={1}>
-                {character.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Status: {character.status}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Species: {character.species}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Gender: {character.gender}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Origin: {character.origin.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Location: {character.location.name}
-              </Typography>
-            </div>
-          </Link>
-        ))}
+              <Box flexGrow={1} />
+              <TextField
+                label="Status"
+                name="status"
+                onChange={handleInputChange}
+                select
+                SelectProps={{ native: true }}
+                value={filters.status}
+                variant="outlined"
+              >
+                <option value="">Select Status</option>
+                <option value="alive">Alive</option>
+                <option value="dead">Dead</option>
+                <option value="unknown">Unknown</option>
+              </TextField>
+            </Box>
+            <br />
+            <Box display="flex" alignItems="center">
+              <TextField
+                label="Gender"
+                name="gender"
+                onChange={handleInputChange}
+                select
+                SelectProps={{ native: true }}
+                value={filters.gender}
+                variant="outlined"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="unknown">Unknown</option>
+              </TextField>
+              <Box flexGrow={1} />
+              <TextField
+                label="Species"
+                name="species"
+                onChange={handleInputChange}
+                select
+                SelectProps={{ native: true }}
+                value={filters.species}
+                variant="outlined"
+              >
+                <option value="">Select Species</option>
+                <option value="human">Human</option>
+                <option value="alien">Alien</option>
+              </TextField>
+            </Box>
+          </Box>
+        </Card>
+        <br />
+        <Grid container spacing={4}>
+          {filteredCharacters.map((character) => (
+            <Grid item key={character.id} xs={6} lg={3}>
+              <Link to={`/characters/${character.id}`} className="col-md-3 col-sm-6">
+                <div className="mb-3">
+                  <img
+                    src={character.image}
+                    alt={character.name}
+                    className="img-fluid rounded-circle"
+                  />
+                  <Typography textColor="success.400" fontWeight="xl" my={1}>
+                    {character.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Status: {character.status}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Species: {character.species}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Gender: {character.gender}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Origin: {character.origin.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Location: {character.location.name}
+                  </Typography>
+                </div>
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
       </div>
-    </div>
+    </Page>
   );
 }
