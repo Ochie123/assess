@@ -36,6 +36,7 @@ const Episodes= lazy(() => import ('../src/view/pages/RickyMorty/Episodes'));
 const Locations = lazy(() => import ('../src/view/pages/RickyMorty/Locations'));
 const Images = lazy(() => import('../src/view/pages/Unsplash/PhotoListView'));
 const CharacterDetailPage = lazy(() => import ('../src/view/Detail/CharacterDetailPage'));
+const Documentation= lazy(() => import ('../src/view/pages/Documentation'));
 const PhotoDetailPage = lazy(() => import ('../src/view/Detail/PhotoDetailPage'));
 const About = lazy(() => import('./view/pages/About'));
 const NotFoundPage = lazy(() => import('./view/pages/NotFoundPage'));
@@ -70,6 +71,7 @@ function App() {
         <Route path="unsplash/" element={<Images />} />
         <Route path="photos/:id" element={<PhotoDetailPage/>} />
         <Route path="about/" element={<About />} />
+        <Route path="documentation/" element={<Documentation/>} />
     
         <Route path='/not-found' element={<NotFoundPage/>} />
         <Route path="*" element={<NotFoundPage/>} />
